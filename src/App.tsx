@@ -108,6 +108,17 @@ const STACK = [
   },
 ] as const;
 
+const CLIENTS = [
+  { src: "/clients/1.svg", aspect: 1070.11 / 99.36 },
+  { src: "/clients/2.svg", aspect: 395.85 / 119.06 },
+  { src: "/clients/3.svg", aspect: 117.22 / 118.33 },
+  { src: "/clients/4.svg", aspect: 432.52 / 122.41 },
+  { src: "/clients/5.svg", aspect: 354.49 / 63.2 },
+  { src: "/clients/6.svg", aspect: 353.16 / 68.79 },
+  { src: "/clients/7.svg", aspect: 357.23 / 105.65 },
+  { src: "/clients/8.svg", aspect: 360.41 / 68.7 },
+] as const;
+
 const LEGAL_LINE = [
   "THECODEZ DEVELOPMENT SRL",
   "CUI 42684770",
@@ -426,6 +437,7 @@ export default function App() {
         <Hero />
         <Work />
         <Tech />
+        <Clients />
       </main>
       <Footer onOpenTerms={openTerms} />
       {showTerms && <TermsModal onClose={closeTerms} />}
@@ -905,6 +917,43 @@ function Tech() {
   );
 }
 
+function Clients() {
+  const items = [...CLIENTS, ...CLIENTS];
+  return (
+    <section
+      aria-label="Clients"
+      className="scroll-mt-24 border-t border-grey-200 bg-paper"
+    >
+      <Reveal className="py-8 md:py-10">
+        <div className="overflow-hidden">
+          <ul
+            aria-hidden="true"
+            className="animate-marquee flex w-max items-center gap-12 md:gap-16"
+          >
+            {items.map((c, i) => (
+              <li
+                key={`${c.src}-${i}`}
+                className="h-7 shrink-0 bg-grey-700 opacity-40 transition-opacity duration-300 hover:opacity-100 md:h-9"
+                style={{
+                  aspectRatio: `${c.aspect}`,
+                  maskImage: `url(${c.src})`,
+                  WebkitMaskImage: `url(${c.src})`,
+                  maskRepeat: "no-repeat",
+                  WebkitMaskRepeat: "no-repeat",
+                  maskPosition: "center",
+                  WebkitMaskPosition: "center",
+                  maskSize: "contain",
+                  WebkitMaskSize: "contain",
+                }}
+              />
+            ))}
+          </ul>
+        </div>
+      </Reveal>
+    </section>
+  );
+}
+
 function Footer({ onOpenTerms }: { onOpenTerms: () => void }) {
   return (
     <footer
@@ -927,41 +976,39 @@ function Footer({ onOpenTerms }: { onOpenTerms: () => void }) {
         </a>
       </Reveal>
 
-      <Reveal
-        delay={120}
-        className="mx-auto mt-16 max-w-7xl px-6 md:px-12 md:mt-24"
-      >
-        <p className="border-t border-grey-200 pt-6 font-mono text-[11px] leading-relaxed text-grey-500 md:text-xs">
-          {LEGAL_LINE.map((item, i) => (
-            <span key={item}>
-              {i > 0 && (
-                <span aria-hidden="true" className="mx-2 text-grey-300">
-                  ·
-                </span>
-              )}
-              <span className={i === 0 ? "text-ink" : undefined}>{item}</span>
-            </span>
-          ))}
-        </p>
-      </Reveal>
+      <div className="mt-16 border-t border-grey-200 md:mt-24">
+        <Reveal delay={120} className="mx-auto max-w-7xl px-6 md:px-12">
+          <p className="pt-6 font-mono text-[11px] leading-relaxed text-grey-500 md:text-xs">
+            {LEGAL_LINE.map((item, i) => (
+              <span key={item}>
+                {i > 0 && (
+                  <span aria-hidden="true" className="mx-2 text-grey-300">
+                    ·
+                  </span>
+                )}
+                <span className={i === 0 ? "text-ink" : undefined}>{item}</span>
+              </span>
+            ))}
+          </p>
+        </Reveal>
+      </div>
 
-      <Reveal
-        delay={200}
-        className="mx-auto mt-6 max-w-7xl px-6 pb-10 md:px-12 md:mt-10"
-      >
-        <div className="flex flex-col gap-4 border-t border-grey-200 pt-6 font-mono text-[11px] uppercase tracking-[0.2em] text-grey-500 md:flex-row md:items-center md:justify-between">
-          <span>
-            © 2020–{new Date().getFullYear()} THECODEZ DEVELOPMENT SRL. All rights reserved.
-          </span>
-          <button
-            type="button"
-            onClick={onOpenTerms}
-            className="self-start transition-colors hover:text-ink md:self-auto"
-          >
-            Terms &amp; Conditions
-          </button>
-        </div>
-      </Reveal>
+      <div className="mt-6 border-t border-grey-200 md:mt-10">
+        <Reveal delay={200} className="mx-auto max-w-7xl px-6 pb-10 md:px-12">
+          <div className="flex flex-col gap-4 pt-6 font-mono text-[11px] uppercase tracking-[0.2em] text-grey-500 md:flex-row md:items-center md:justify-between">
+            <span>
+              © 2020–{new Date().getFullYear()} THECODEZ DEVELOPMENT SRL. All rights reserved.
+            </span>
+            <button
+              type="button"
+              onClick={onOpenTerms}
+              className="self-start transition-colors hover:text-ink md:self-auto"
+            >
+              Terms &amp; Conditions
+            </button>
+          </div>
+        </Reveal>
+      </div>
     </footer>
   );
 }
